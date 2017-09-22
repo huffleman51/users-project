@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon --watch src --watch test --exec mocha"
+    "test": "nodemon --exec 'mocha -R min'",
+    "test2": "nodemon --watch src --watch test --exec 'mocha -R min'",
   },
   "author": "",
   "license": "ISC",
