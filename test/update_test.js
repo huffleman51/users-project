@@ -71,13 +71,4 @@ describe('Updating records', () => {
       });
   });
 
-  it('', (done) => {
-
-    done();
-  });
-
-  it('', (done) => {
-
-    done();
-  });
 });
