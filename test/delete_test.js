@@ -1,57 +1,55 @@
-const describe = require('mocha').describe;
-const assert = require('assert');
 const User = require('../src/user');
+const chai = require('chai');
+const expect = require('chai').expect;
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
 
 describe('deleting a user', () => {
 
   let joe;
 
-  beforeEach((done) => {
+  beforeEach( async () => {
 
     // Insert a User for the tests
     joe = new User({ name: 'Joe' } );
-    joe.save()
-      .then(() => done());
+    await joe.save();
   });
 
-  it('model instance remove', (done) => {
+  it('model instance remove', async () => {
 
-    joe.remove()
+    await joe.remove()
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        assert(user === null);
-        done();
+        expect(user).to.equal(null);
       });
   });
 
-  it('class method remove', (done) => {
+  it('class method remove', async () => {
 
     // Remove a bunch of records with some given criteria
-    User.remove({name: 'Joe'})
+    await User.remove({name: 'Joe'})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        assert(user === null);
-        done();
+        expect(user).to.equal(null);
       });
   });
 
-  it('class method findOneAndRemove', (done) => {
+  it('class method findOneAndRemove', async () => {
 
-    User.findOneAndRemove({name: 'Joe'})
+    await User.findOneAndRemove({name: 'Joe'})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        assert(user === null);
-        done();
+        expect(user).to.equal(null);
       });
   });
 
-  it('class method findByIdAndRemove', (done) => {
+  it('class method findByIdAndRemove', async () => {
 
-    User.findByIdAndRemove(joe._id)
+    await User.findByIdAndRemove(joe._id)
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        assert(user === null);
-        done();
+        expect(user).to.equal(null);
       });
   })
 })

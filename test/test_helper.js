@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const beforeEach = require('mocha').beforeEach;
-const before = require('mocha').before;
 
 mongoose.Promise = global.Promise;
 
@@ -13,18 +11,9 @@ before(() => {
       .on('error', (error) => {
           console.warn('Error', error);
       });
-
-    // //Drop User Collection before running any tests
-    // mongoose.connection.collections.users.drop(() => {
-    //     // Ready to run the next test!
-    //     done();
-    // });
 });
 
-beforeEach((done) => {
+beforeEach( async () => {
     //Drop User Collection before running any tests
-    mongoose.connection.collections.users.drop(() => {
-        // Ready to run the next test!
-        done();
-    });
+    await mongoose.connection.collections.users.drop(() => {});
 });

@@ -1,8 +1,14 @@
-const assert = require('assert');
 const User = require('../src/user');
-const describe = require('mocha').describe;
+const chai = require('chai');
+const expect = require('chai').expect;
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
 
 describe('Validation records', () => {
+
+  const errorMessageNameGreaterThanTwoCharacters = 'Name must be greater than 2 characters';
+
   it('requires a user name', () => {
     const user = new User({name: undefined});
 
@@ -12,7 +18,7 @@ describe('Validation records', () => {
     // console.log(validationResult.errors['name'].message);
     const { message } = validationResult.errors['name'];
     // console.log(`message: ${message}`);
-    assert(message === 'Name is required.')
+    expect(message).to.equal('Name is required.');
   });
 
   it('requires a user name longer than 2 characters', () => {
@@ -20,7 +26,50 @@ describe('Validation records', () => {
     const validationResult = user.validateSync();
     const { message } = validationResult.errors['name'];
 
-    assert(message === 'Name must be greater than 2 characters');
+    expect(message).to.equal(errorMessageNameGreaterThanTwoCharacters);
   });
+
+  it('disallows invalid records from being saved', async () => {
+
+    const user = new User({name: 'Al'});
+    await user.save()
+      .catch((validationResult) => {
+        const {message} = validationResult.errors['name'];
+        expect(message).to.equal(errorMessageNameGreaterThanTwoCharacters);
+      });
+  });
+
+  // https://wietse.loves.engineering/testing-promises-with-mocha-90df8b7d2e35
+  it('testing1 - using then(done, done)', (done) => {
+
+    const user = new User({name: 'Al'});
+    user.save()
+      .catch((validationResult) => {
+        const {message} = validationResult.errors['name'];
+        expect(message).to.equal(errorMessageNameGreaterThanTwoCharacters);
+      }).then(done, done);
+
+  });
+
+  it('testing2 - using return promise', () => {
+
+    const user = new User({name: 'Al'});
+    return user.save()
+      .catch((validationResult) => {
+        const {message} = validationResult.errors['name'];
+        expect(message).to.equal(errorMessageNameGreaterThanTwoCharacters);
+      });
+  });
+
+  it('testing3 - using async await', async () => {
+
+    const user = new User({name: 'Al'});
+    await user.save()
+      .catch((validationResult) => {
+        const {message} = validationResult.errors['name'];
+        expect(message).to.equal(errorMessageNameGreaterThanTwoCharacters);
+      });
+  });
+
 });
 
