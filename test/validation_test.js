@@ -39,6 +39,16 @@ describe('Validation records', () => {
       });
   });
 
+  it('disallows invalid records from being saved', async () => {
+    const user = new User({name: 'Al'});
+
+    await user.save()
+      .catch((validationResults) => {
+        const {message} = validationResults.errors['name'];
+        expect(message).to.equal(errorMessageNameGreaterThanTwoCharacters);
+      });
+  });
+
   // https://wietse.loves.engineering/testing-promises-with-mocha-90df8b7d2e35
   it('testing1 - using then(done, done)', (done) => {
 
