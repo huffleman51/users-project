@@ -1,5 +1,4 @@
 import User from '../src/user';
-import Post from '../src/post'
 const chai = require('chai');
 const expect = require('chai').expect;
 const chaiAsPromised = require('chai-as-promised');

@@ -10,7 +10,7 @@ describe('Updating records', () => {
   let joe;
 
   beforeEach(async () => {
-    joe = new User({name: 'Joe', postCount: 0});
+    joe = new User({name: 'Joe', likes: 0});
     await joe.save();
   });
 
@@ -55,37 +55,37 @@ describe('Updating records', () => {
 
   it('A User can have their postCount incremented by one', async () => {
     // For every user named Joe, update the postCount to something
-    await User.update({name: 'Joe'}, {$inc: {postCount: 1}})
+    await User.update({name: 'Joe'}, {$inc: {likes: 1}})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        expect(user.postCount).to.equal(1);
+        expect(user.likes).to.equal(1);
       });
   });
 
   it('TESTING1 A User can have their postCount incremented by one - using then(done, done)', (done) => {
     // For every user named Joe, update the postCount to something
-    User.update({name: 'Joe'}, {$inc: {postCount: 1}})
+    User.update({name: 'Joe'}, {$inc: {likes: 1}})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        expect(user.postCount).to.equal(1);
+        expect(user.likes).to.equal(1);
       }).then(done, done);
   });
 
   it('TESTING2 A User can have their postCount incremented by one - returning a promise', () => {
     // For every user named Joe, update the postCount to something
-    return User.update({name: 'Joe'}, {$inc: {postCount: 1}})
+    return User.update({name: 'Joe'}, {$inc: {likes: 1}})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        expect(user.postCount).to.equal(1);
+        expect(user.likes).to.equal(1);
       });
   });
 
   it('TESTING3 A User can have their postCount incremented by one - using async wait', async () => {
     // For every user named Joe, update the postCount to something
-    await User.update({name: 'Joe'}, {$inc: {postCount: 1}})
+    await User.update({name: 'Joe'}, {$inc: {likes: 1}})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        expect(user.postCount).to.equal(1);
+        expect(user.likes).to.equal(1);
       });
   });
 });
