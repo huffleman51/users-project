@@ -16,4 +16,6 @@ before(() => {
 beforeEach( async () => {
     //Drop User Collection before running any tests
     await mongoose.connection.collections.users.drop(() => {});
+    await mongoose.connection.collections.comments.drop(() => {});
+    await mongoose.connection.collections.blogposts.drop(() => {});
 });
